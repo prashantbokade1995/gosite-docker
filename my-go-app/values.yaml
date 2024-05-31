@@ -1,0 +1,10 @@
+replicaCount: 2
+image:
+  repository: prashantbokade/go-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: my-go-app-service
+  port: 80
+  targetPort: 8080

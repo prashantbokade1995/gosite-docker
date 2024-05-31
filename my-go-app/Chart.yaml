@@ -1,0 +1,4 @@
+apiVersion: v2
+name: my-go-app
+description: A Helm chart for deploying a Go application to AWS EKS
+version: 0.1.0
