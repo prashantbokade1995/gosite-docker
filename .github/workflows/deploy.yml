@@ -19,6 +19,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Print Docker Info
+        run: docker info
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
@@ -26,9 +32,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: prashantbokade/go-app:latest
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
   deploy:
     needs: build
@@ -37,6 +40,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Pull Docker image
         run: docker pull prashantbokade/go-app:latest
